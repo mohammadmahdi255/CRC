@@ -12,8 +12,8 @@ architecture behavior of CRC_TB is
 	component CRC
 		generic
 		(
-			DATA_WIDTH : INTEGER := 16;
-			CRC_WIDTH  : INTEGER := 16
+			g_DATA_WIDTH : INTEGER := 8;
+			g_CRC_WIDTH  : INTEGER := 16
 		);
 		port
 		(
@@ -21,14 +21,14 @@ architecture behavior of CRC_TB is
 			i_CLK    : in  STD_LOGIC;
 			i_EN     : in  STD_LOGIC;
 
-			i_POLY   : in  STD_LOGIC_VECTOR (CRC_WIDTH - 1 downto 0);
-			i_INIT   : in  STD_LOGIC_VECTOR (CRC_WIDTH - 1 downto 0);
-			i_XOROUT : in  STD_LOGIC_VECTOR (CRC_WIDTH - 1 downto 0);
+			i_POLY   : in  STD_LOGIC_VECTOR (g_CRC_WIDTH - 1 downto 0);
+			i_INIT   : in  STD_LOGIC_VECTOR (g_CRC_WIDTH - 1 downto 0);
+			i_XOROUT : in  STD_LOGIC_VECTOR (g_CRC_WIDTH - 1 downto 0);
 			i_REFIN  : in  STD_LOGIC;
 			i_REFOUT : in  STD_LOGIC;
 
-			i_DATA   : in  STD_LOGIC_VECTOR (DATA_WIDTH - 1 downto 0);
-			o_CRC    : out STD_LOGIC_VECTOR (CRC_WIDTH - 1 downto 0)
+			i_DATA   : in  STD_LOGIC_VECTOR (g_DATA_WIDTH - 1 downto 0);
+			o_CRC    : out STD_LOGIC_VECTOR (g_CRC_WIDTH - 1 downto 0)
 		);
 	end component;
 
@@ -41,7 +41,7 @@ architecture behavior of CRC_TB is
 	signal i_XOROUT       : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
 	signal i_REFIN        : STD_LOGIC                     := '0';
 	signal i_REFOUT       : STD_LOGIC                     := '0';
-	signal i_DATA         : STD_LOGIC_VECTOR(15 downto 0)  := (others => '0');
+	signal i_DATA         : STD_LOGIC_VECTOR(7 downto 0)  := (others => '0');
 
 	--Outputs
 	signal o_CRC          : STD_LOGIC_VECTOR(15 downto 0);
@@ -82,7 +82,7 @@ begin
 		i_RST_N  <= '0';
 		i_EN     <= '0';
 		i_POLY   <= x"1021";
-		i_INIT   <= x"0001";
+		i_INIT   <= x"1D0F";
 		i_XOROUT <= x"0000";
 		i_REFIN  <= '0';
 		i_REFOUT <= '0';
@@ -91,9 +91,11 @@ begin
 		i_RST_N <= '1';
 		i_EN    <= '1';
 		
-		i_DATA  <= x"1021";
+		i_DATA  <= x"F0";
 		wait for i_Clk_period;
-		i_DATA <= x"0000";
+		i_DATA  <= x"00";
+		wait for i_Clk_period;
+		i_DATA  <= x"00";
 		wait for i_Clk_period;
 		i_EN <= '0';
 		-- insert stimulus here 
