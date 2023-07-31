@@ -35,7 +35,7 @@ begin
 				r_Count <= r_Count + 1;
 			end if;
 
-			if r_Count = o_CRC'left + 1  then
+			if r_Count = o_CRC'left + 1 then
 				o_CRC   <= r_CRC;
 				o_Valid <= '1';
 			end if;
@@ -44,8 +44,8 @@ begin
 
 		end if;
 	end process;
-	
+
 	w_CRC <= r_CRC(o_CRC'left - 1 downto 0) & i_SDI when r_CRC(o_CRC'left) = '0' else
-			 (r_CRC(o_CRC'left - 1 downto 0) & i_SDI) xor G;
+		(r_CRC(o_CRC'left - 1 downto 0) & i_SDI) xor G;
 
 end RTL;
