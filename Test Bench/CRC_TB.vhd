@@ -12,11 +12,11 @@ architecture behavior of CRC_TB is
 	component CRC
 		generic
 		(
-			g_DATA_WIDTH : integer := 8;
-			g_CRC_WIDTH  : integer := 16;
-			g_POLY       : std_logic_vector := x"8005";
-			g_INIT       : std_logic_vector := x"FFFF";
-			g_XOROUT     : std_logic_vector := x"FFFF";
+			g_DATA_WIDTH : integer := 4;
+			g_CRC_WIDTH  : integer := 4;
+			g_POLY       : std_logic_vector := x"04C11DB7";
+			g_INIT       : std_logic_vector := x"FFFFFFFF";
+			g_XOROUT     : std_logic_vector := x"FFFFFFFF";
 			g_REFIN      : std_logic := '1';
 			g_REFOUT     : std_logic := '1'
 		);
@@ -26,8 +26,8 @@ architecture behavior of CRC_TB is
 			i_CLK    : in  STD_LOGIC;
 			i_EN     : in  STD_LOGIC;
 
-			i_DATA   : in  STD_LOGIC_VECTOR (g_DATA_WIDTH - 1 downto 0);
-			o_CRC    : out STD_LOGIC_VECTOR (g_CRC_WIDTH - 1 downto 0)
+			i_DATA   : in  STD_LOGIC_VECTOR (8 * g_DATA_WIDTH - 1 downto 0);
+			o_CRC    : out STD_LOGIC_VECTOR (8 * g_CRC_WIDTH - 1 downto 0)
 		);
 	end component;
 
@@ -35,10 +35,10 @@ architecture behavior of CRC_TB is
 	signal i_RST_N        : STD_LOGIC                     := '0';
 	signal i_CLK          : STD_LOGIC                     := '0';
 	signal i_EN           : STD_LOGIC                     := '0';
-	signal i_DATA         : STD_LOGIC_VECTOR(7 downto 0)  := (others => '0');
+	signal i_DATA         : STD_LOGIC_VECTOR(31 downto 0)  := (others => '0');
 
 	--Outputs
-	signal o_CRC          : STD_LOGIC_VECTOR(15 downto 0);
+	signal o_CRC          : STD_LOGIC_VECTOR(31 downto 0);
 
 	-- Clock period definitions
 	constant i_CLK_period : TIME := 30 ns;
@@ -75,14 +75,15 @@ begin
 		i_RST_N <= '1';
 		i_EN    <= '1';
 		
-		i_DATA  <= x"10";
+		i_DATA  <= x"3dff0408";
 		wait for i_Clk_period;
-		i_DATA  <= x"21";
+		
+		i_DATA  <= x"013dffff";
 		wait for i_Clk_period;
-		i_DATA  <= x"00";
+		
+		i_DATA  <= x"00000000";
 		wait for i_Clk_period;
-		i_DATA  <= x"00";
-		wait for i_Clk_period;
+
 		i_EN <= '0';
 		-- insert stimulus here 
 
