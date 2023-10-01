@@ -12,13 +12,13 @@ architecture behavior of CRC_TB is
 	component CRC
 		generic
 		(
-			g_DATA_WIDTH : integer := 4;
+			g_DATA_WIDTH : integer := 1;
 			g_CRC_WIDTH  : integer := 4;
 			g_POLY       : std_logic_vector := x"04C11DB7";
 			g_INIT       : std_logic_vector := x"FFFFFFFF";
 			g_XOROUT     : std_logic_vector := x"FFFFFFFF";
-			g_REFIN      : std_logic := '1';
-			g_REFOUT     : std_logic := '1'
+			g_REFIN      : std_logic := '0';
+			g_REFOUT     : std_logic := '0'
 		);
 		port
 		(
@@ -35,7 +35,7 @@ architecture behavior of CRC_TB is
 	signal i_RST_N        : STD_LOGIC                     := '0';
 	signal i_CLK          : STD_LOGIC                     := '0';
 	signal i_EN           : STD_LOGIC                     := '0';
-	signal i_DATA         : STD_LOGIC_VECTOR(31 downto 0)  := (others => '0');
+	signal i_DATA         : STD_LOGIC_VECTOR(7 downto 0)  := (others => '0');
 
 	--Outputs
 	signal o_CRC          : STD_LOGIC_VECTOR(31 downto 0);
@@ -70,20 +70,38 @@ begin
 		-- hold reset state for 100 ns.
 		i_RST_N  <= '0';
 		i_EN     <= '0';
+		i_DATA   <= x"FF";
 		wait for i_Clk_period * 10;
-
+		
 		i_RST_N <= '1';
 		i_EN    <= '1';
 		
-		i_DATA  <= x"3dff0408";
+		i_DATA  <= x"f8";
 		wait for i_Clk_period;
 		
-		i_DATA  <= x"013dffff";
+		i_DATA  <= x"ff";
+		wait for i_Clk_period;
+		i_DATA  <= x"04";
+		wait for i_Clk_period;
+		i_DATA  <= x"08";
 		wait for i_Clk_period;
 		
-		i_DATA  <= x"00000000";
+		i_DATA  <= x"01";
+		wait for i_Clk_period;
+		i_DATA  <= x"f8";
+		wait for i_Clk_period;
+		i_DATA  <= x"ff";
 		wait for i_Clk_period;
 
+		i_DATA  <= x"00";
+		wait for i_Clk_period;
+		i_DATA  <= x"00";
+		wait for i_Clk_period;
+		i_DATA  <= x"00";
+		wait for i_Clk_period;
+		i_DATA  <= x"00";
+		wait for i_Clk_period;
+		
 		i_EN <= '0';
 		-- insert stimulus here 
 

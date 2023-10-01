@@ -3,6 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.crc_package.all;
 
+-- TODO FIXING REFIN
+-- TODO HOLD and SETUP lost
 entity CRC is
 	generic
 	(
@@ -46,7 +48,7 @@ begin
 			r_CRC <= (others => '0');
 			r_INIT <= g_INIT;
 			
-		elsif rising_edge(i_CLK) and i_EN = '1' then
+		elsif falling_edge(i_CLK) and i_EN = '1' then
 			r_CRC <= w_CRC(8 * g_DATA_WIDTH - 1);
 			if g_DATA_WIDTH < g_CRC_WIDTH  then
 				r_INIT <= r_INIT(8 * (g_CRC_WIDTH - g_DATA_WIDTH) - 1 downto 0) & c_ZERO;
@@ -68,8 +70,8 @@ begin
 
 	w_INIT <= r_INIT(8 * g_CRC_WIDTH - 1 downto 8 * (g_CRC_WIDTH - g_DATA_WIDTH));
 	w_DATA <= i_DATA xor w_INIT when g_REFIN = '0' else
-			reverse_each_byte(i_DATA) xor w_INIT;
-	  
+			reverse(i_DATA xor w_INIT);
+			
 	o_CRC <= r_CRC xor g_XOROUT when g_REFOUT = '0' else
-		reverse_byte(r_CRC xor g_XOROUT);
+		reverse(r_CRC xor g_XOROUT);
 end RTL;
