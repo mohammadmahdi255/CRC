@@ -9,10 +9,10 @@ entity CRC is
 	generic
 	(
 		g_DATA_WIDTH : integer := 1;
-		g_CRC_WIDTH  : integer := 2;
-		g_POLY       : std_logic_vector := x"8005";
-		g_INIT       : std_logic_vector := x"FFFF";
-		g_XOROUT     : std_logic_vector := x"FFFF";
+		g_CRC_WIDTH  : integer := 4;
+		g_POLY       : std_logic_vector := x"04C11DB7";
+		g_INIT       : std_logic_vector := x"FFFFFFFF";
+		g_XOROUT     : std_logic_vector := x"FFFFFFFF";
 		g_REFIN      : std_logic := '1';
 		g_REFOUT     : std_logic := '1'
 	);
@@ -69,6 +69,7 @@ begin
 	end process combinational;
 
 	w_INIT <= r_INIT(8 * g_CRC_WIDTH - 1 downto 8 * (g_CRC_WIDTH - g_DATA_WIDTH));
+--	w_INIT <= r_INIT(8 * g_DATA_WIDTH - 1 downto 0);
 	w_DATA <= i_DATA xor w_INIT when g_REFIN = '0' else
 			reverse(i_DATA xor w_INIT);
 			

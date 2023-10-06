@@ -71,14 +71,13 @@ begin
 		i_RST_N  <= '0';
 		i_EN     <= '0';
 		i_DATA   <= x"FF";
-		wait for i_Clk_period * 10;
+		wait for i_Clk_period * 9.5;
 		
 		i_RST_N <= '1';
 		i_EN    <= '1';
 		
 		i_DATA  <= x"f8";
 		wait for i_Clk_period;
-		
 		i_DATA  <= x"ff";
 		wait for i_Clk_period;
 		i_DATA  <= x"04";
@@ -92,14 +91,14 @@ begin
 		wait for i_Clk_period;
 		i_DATA  <= x"ff";
 		wait for i_Clk_period;
-
-		i_DATA  <= x"00";
+		
+		i_DATA  <= x"46";
 		wait for i_Clk_period;
-		i_DATA  <= x"00";
+		i_DATA  <= x"A7";
 		wait for i_Clk_period;
-		i_DATA  <= x"00";
+		i_DATA  <= x"2E";
 		wait for i_Clk_period;
-		i_DATA  <= x"00";
+		i_DATA  <= x"E1";
 		wait for i_Clk_period;
 		
 		i_EN <= '0';
