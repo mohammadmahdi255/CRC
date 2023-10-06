@@ -12,7 +12,7 @@ entity IEEE8023_CRC32 is
 		i_EN    : in  std_logic;
 
 		i_DATA  : in  t_BYTE;
-		o_CRC   : out t_BYTE_VECTOR (3 downto 0)
+		o_CRC   : out t_BYTE_VECTOR (0 to 3)
 	);
 end IEEE8023_CRC32;
 
