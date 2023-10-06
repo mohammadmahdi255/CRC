@@ -69,9 +69,10 @@ begin
 	end process combinational;
 
 	w_INIT <= r_INIT(8 * g_CRC_WIDTH - 1 downto 8 * (g_CRC_WIDTH - g_DATA_WIDTH));
---	w_INIT <= r_INIT(8 * g_DATA_WIDTH - 1 downto 0);
-	w_DATA <= i_DATA xor w_INIT when g_REFIN = '0' else
-			reverse(i_DATA xor w_INIT);
+	w_DATA <= i_DATA;
+			
+--	w_DATA <= i_DATA xor w_INIT when g_REFIN = '0' else
+--			reverse(i_DATA xor w_INIT);
 			
 	o_CRC <= r_CRC xor g_XOROUT when g_REFOUT = '0' else
 		reverse(r_CRC xor g_XOROUT);

@@ -76,29 +76,26 @@ begin
 		i_RST_N <= '1';
 		i_EN    <= '1';
 		
-		i_DATA  <= x"f8";
-		wait for i_Clk_period;
-		i_DATA  <= x"ff";
-		wait for i_Clk_period;
-		i_DATA  <= x"04";
-		wait for i_Clk_period;
-		i_DATA  <= x"08";
-		wait for i_Clk_period;
 		
-		i_DATA  <= x"01";
+		i_DATA  <= x"f8" xor x"ff";
 		wait for i_Clk_period;
-		i_DATA  <= x"f8";
-		wait for i_Clk_period;
-		i_DATA  <= x"ff";
-		wait for i_Clk_period;
+--		
+--		i_DATA  <= x"50";
+--		wait for i_Clk_period;
+--		
+--		i_DATA  <= x"4f";
+--		wait for i_Clk_period;
+--		
+--		i_DATA  <= x"ef";
+--		wait for i_Clk_period;
+--		
+--		i_DATA  <= x"4e";
+--		wait for i_Clk_period;
 		
-		i_DATA  <= x"46";
-		wait for i_Clk_period;
-		i_DATA  <= x"A7";
-		wait for i_Clk_period;
-		i_DATA  <= x"2E";
-		wait for i_Clk_period;
-		i_DATA  <= x"E1";
+		i_DATA  <= x"FF";
+		wait for i_Clk_period * 3;
+		
+		i_DATA  <= x"00";
 		wait for i_Clk_period;
 		
 		i_EN <= '0';
