@@ -14,3 +14,4 @@
 # Include the "Test Bench" folder and its contents
 !Test Bench/
 !Test Bench/*.vhd
+!Test Bench/*.wcfg
